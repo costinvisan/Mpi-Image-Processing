@@ -2,20 +2,20 @@
 #include <stdlib.h>
 #include "pic.h"
 
-Pic *pic_alloc(int nx, int ny, int bytes, Pic *pic) {
+Pic *pic_alloc(int width, int height, int bytes, Pic *pic) {
 	Pic *p;
-	int size = nx * ny * bytes;
+	int size = width * height * bytes;
 	ALLOC(p, Pic, 1);
-	p->nx = nx;
-	p->ny = ny;
+	p->width = width;
+	p->height = height;
 	p->bpp = bytes;
-	if (pic && pic->nx * pic->ny * pic->bpp >= p->nx * p->ny * p->bpp) {
+	if (pic && pic->width * pic->height * pic->bpp >= p->width * p->height * p->bpp) {
 		p->pix = pic->pix;
 	} else {
 		if (bytes == 3) {
 			ALLOC(p->pix, Pixel1_rgb, size);
 		} else {
-			ALLOC(p->pix, Pixel1, size);
+			ALLOC(p->pix, char, size);
 		}
 	}
 	return p;
